@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:food_save/auth/auth_gate.dart';
 import 'package:food_save/auth/login_or_register.dart';
 import 'package:food_save/pages/login_page.dart';
 import 'package:food_save/pages/register_page.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginOrRegister(),
+      home: AuthGate(),
     );
   }
 }

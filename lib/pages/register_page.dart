@@ -1,16 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:food_save/auth/auth_service.dart';
 import 'package:food_save/component/my_button.dart';
 import 'package:food_save/component/my_textfield.dart';
 
 class RegisterPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmpasswordController = TextEditingController();
+  final TextEditingController _confirmpasswordController =
+      TextEditingController();
   final void Function()? onTap;
   RegisterPage({super.key, required this.onTap});
 
-  void register() {
-
+  void register(BuildContext context) async {
+    final auth = AuthService();
+    if (_passwordController.text == _confirmpasswordController.text) {
+      try {
+        await auth.signUpWithEmailPassword(
+            _emailController.text, _passwordController.text);
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  title: Text(e.toString()),
+                ));
+      }
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+                title: Text('Password don\'t match!'),
+              ));
+    }
   }
 
   @override
@@ -26,10 +46,12 @@ class RegisterPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('CREATE ACCOUNT', style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    Text(
+                      'CREATE ACCOUNT',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 10),
                     MyTextfield(
@@ -50,15 +72,24 @@ class RegisterPage extends StatelessWidget {
                       controller: _confirmpasswordController,
                       obsecureText: true,
                     ),
-                    SizedBox(height: 25,),
-                    MyButton(text: "REGISTER", onPressed: register),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    MyButton(
+                      text: "REGISTER",
+                      onPressed: () => register(context),
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text('Already have an account?'),
                         GestureDetector(
                           onTap: onTap,
-                          child: Text("Login now", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
+                          child: Text(
+                            "Login now",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
                           ),
                         ),
                       ],
