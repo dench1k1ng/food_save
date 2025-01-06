@@ -4,6 +4,12 @@ import 'package:food_save/pages/favourite_page.dart';
 import 'package:food_save/pages/profile_page.dart';
 import 'package:food_save/pages/search_page.dart';
 
+int hexToInteger(String hex) => int.parse(hex, radix: 16);
+
+extension StringColorExtensions on String {
+  Color toColor() => Color(hexToInteger(this));
+}
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -28,8 +34,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber.shade700,
-        foregroundColor: Colors.green,
+        backgroundColor: Colors.white,
+        foregroundColor: Color(hexToInteger('FF154314')),
         title: const Text('Home page'),
         actions: [
           IconButton(
@@ -56,24 +62,36 @@ class _HomePageState extends State<HomePage> {
           currentIndex: myIndex,
           items: [
             BottomNavigationBarItem(
-              backgroundColor: Colors.amber,
-              label: '1',
-              icon: Icon(Icons.home),
+              backgroundColor: Colors.white,
+              label: '',
+              icon: Icon(
+                Icons.home,
+                color: Color(hexToInteger('FF154314')),
+              ),
             ),
             BottomNavigationBarItem(
-              backgroundColor: Colors.amber,
-              label: '2',
-              icon: Icon(Icons.search),
+              backgroundColor: Colors.white,
+              label: '',
+              icon: Icon(
+                Icons.search,
+                color: Color(hexToInteger('FF154314')),
+              ),
             ),
             BottomNavigationBarItem(
-              backgroundColor: Colors.amber,
-              label: '3',
-              icon: Icon(Icons.favorite),
+              backgroundColor: Colors.white,
+              label: '',
+              icon: Icon(
+                Icons.favorite,
+                color: Color(hexToInteger('FF154314')),
+              ),
             ),
             BottomNavigationBarItem(
-              label: '4',
-              backgroundColor: Colors.amber,
-              icon: Icon(Icons.person),
+              label: '',
+              backgroundColor: Colors.white,
+              icon: Icon(
+                Icons.person,
+                color: Color(hexToInteger('FF154314')),
+              ),
             ),
           ]),
     );
