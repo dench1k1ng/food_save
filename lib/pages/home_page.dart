@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_save/auth/auth_service.dart';
 import 'package:food_save/pages/favourite_page.dart';
+import 'package:food_save/pages/onboarding_page.dart';
 import 'package:food_save/pages/profile_page.dart';
 import 'package:food_save/pages/search_page.dart';
 
@@ -11,21 +12,21 @@ extension StringColorExtensions on String {
 }
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  void logout() {
-    final auth = AuthService();
-    auth.signout();
-  }
+  // void logout() {
+  //   final auth = AuthService();
+  //   auth.signout();
+  // }
 
   int myIndex = 0;
   List<Widget> widgetList = [
-    HomePage(),
+    OnboardingPage(),
     SearchPage(),
     FavouritePage(),
     ProfilePage(),
@@ -33,17 +34,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Color(hexToInteger('FF154314')),
-        title: const Text('Home page'),
-        actions: [
-          IconButton(
-            onPressed: logout,
-            icon: Icon(Icons.logout),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   foregroundColor: Color(hexToInteger('FF154314')),
+      //   title: const Text('Home page'),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: logout,
+      //       icon: Icon(Icons.logout),
+      //     )
+      //   ],
+      // ),
       body: Center(
         child: IndexedStack(
           children: widgetList,
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.white,
           showUnselectedLabels: false,
-          type: BottomNavigationBarType.shifting,
+          //type: BottomNavigationBarType.shifting,
           onTap: (index) {
             setState(() {
               myIndex = index;
@@ -81,7 +82,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.white,
               label: '',
               icon: Icon(
-                Icons.favorite,
+                Icons.shopping_basket,
                 color: Color(hexToInteger('FF154314')),
               ),
             ),

@@ -36,6 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   firebase_core: ^3.9.0
   firebase_auth: ^5.3.4
+  dio: ^5.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,7 +59,11 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-     - images/
+     - images/magnum.png
+     - images/mcdon.png
+     - images/kfc.png
+     - images/fermag.jpg
+     - images/faceAvatar.jpeg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
