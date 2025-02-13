@@ -28,7 +28,7 @@ class RegisterPage extends StatelessWidget {
       showDialog(
           context: context,
           builder: (context) => const AlertDialog(
-                title: Text('Password don\'t match!'),
+                title: Text('Пароли не совпадают!'),
               ));
     }
   }
@@ -47,7 +47,7 @@ class RegisterPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'CREATE ACCOUNT',
+                      'Создать аккаунт',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -61,13 +61,13 @@ class RegisterPage extends StatelessWidget {
                       obsecureText: false,
                     ),
                     MyTextfield(
-                      hintText: "PASSWORD",
+                      hintText: "Пароль",
                       icon: Icon(Icons.lock),
                       controller: _passwordController,
                       obsecureText: true,
                     ),
                     MyTextfield(
-                      hintText: "CONFIRM PASSWORD",
+                      hintText: "Пароль",
                       icon: Icon(Icons.lock),
                       controller: _confirmpasswordController,
                       obsecureText: true,
@@ -76,17 +76,17 @@ class RegisterPage extends StatelessWidget {
                       height: 25,
                     ),
                     MyButton(
-                      text: "REGISTER",
+                      text: "Регистрироваться",
                       onPressed: () => register(context),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Already have an account?'),
+                        Text('Уже есть аккаунт?'),
                         GestureDetector(
                           onTap: onTap,
                           child: Text(
-                            "Login now",
+                            " Войти",
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 color: Colors.green),

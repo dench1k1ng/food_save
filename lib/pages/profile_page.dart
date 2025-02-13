@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../auth/auth_service.dart';
+
 int hexToInteger(String hex) => int.parse(hex, radix: 16);
 
 extension StringColorExtensions on String {
@@ -8,6 +10,10 @@ extension StringColorExtensions on String {
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
+  void logout() {
+    final auth = AuthService();
+    auth.signout();
+  }
 
   Widget textField(@required String hintText) {
     return TextField(
@@ -40,12 +46,16 @@ class ProfilePage extends StatelessWidget {
         centerTitle: true,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.settings_outlined),
+            onPressed: logout,
+            icon: Icon(Icons.logout),
           ),
+          // IconButton(
+          //   onPressed: () {},
+          //   icon: const Icon(Icons.settings_outlined),
+          // ),
         ],
         title: const Text(
-          'PROFILE',
+          'Профиль',
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.bold,
@@ -63,7 +73,7 @@ class ProfilePage extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                "User",
+                "Пользователь",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 28,
@@ -76,19 +86,19 @@ class ProfilePage extends StatelessWidget {
           ),
           Column(
             children: [
-              textField('Full name'),
+              textField('ФИО'),
               const SizedBox(
                 height: 10,
               ),
-              textField('Phone number'),
+              textField('Номер телефона'),
               const SizedBox(
                 height: 10,
               ),
-              textField('Gmail'),
+              textField('Email'),
               const SizedBox(
                 height: 10,
               ),
-              textField('Addres'),
+              textField('Аддрес'),
             ],
           ),
         ],

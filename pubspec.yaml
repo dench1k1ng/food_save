@@ -37,9 +37,16 @@ dependencies:
   firebase_core: ^3.9.0
   firebase_auth: ^5.3.4
   dio: ^5.7.0
+
+
 dev_dependencies:
+  flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "images/logo_food_save.jpg"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -54,16 +61,36 @@ dev_dependencies:
 # The following section is specific to Flutter packages.
 flutter:
 
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
   assets:
-     - images/magnum.png
+     - images/magnum2.png
      - images/mcdon.png
-     - images/kfc.png
+     - images/kfcDed.png
      - images/fermag.jpg
      - images/faceAvatar.jpeg
+     - images/small.png
+     - images/logo_food_save.jpg
+     - images/small.jpg
+     - images/kfcDed2.jpg
+     - images/beh/bulki.jpg
+     - images/beh/combo.jpg
+     - images/beh/doner.jpg
+     - images/beh/free.jpg
+     - images/beh/lagman.jpg
+     - images/beh/pizza.jpg
+     - images/beh/ploov.jpg
+     - images/beh/sup.jpg
+     - images/gro/app.jpg
+     - images/gro/banana.jpg
+     - images/gro/milk.jpg
+     - images/gro/bread.jpg
+     - images/gro/cokki.jpg
+     - images/gro/straw.jpg
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

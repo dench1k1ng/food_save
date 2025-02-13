@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:food_save/pages/grocery_basket_menu.dart';
 import 'package:food_save/pages/kafe_basket_menu.dart';
 
+import 'menu_screen.dart';
+
 class OnboardingPage extends StatelessWidget {
   final List<Map<String, String>> items = [
     {
@@ -9,16 +11,16 @@ class OnboardingPage extends StatelessWidget {
       "title": "McDonald's",
     },
     {
-      "image": "images/magnum.png",
+      "image": "images/magnum2.png",
       "title": "Magnum",
     },
     {
-      "image": "images/kfc.png",
+      "image": "images/kfcDed.png",
       "title": "KFC",
     },
     {
-      "image": "images/fermag.jpg",
-      "title": "Fermag",
+      "image": "images/small.png",
+      "title": "Small",
     },
   ];
 
@@ -30,7 +32,7 @@ class OnboardingPage extends StatelessWidget {
         elevation: 0,
         backgroundColor: Colors.white,
         title: const Text(
-          'Good morning, User',
+          'Добрый день!',
           style: TextStyle(color: Colors.black, fontSize: 18),
         ),
         automaticallyImplyLeading: false,
@@ -45,7 +47,7 @@ class OnboardingPage extends StatelessWidget {
               // Search Bar
               TextField(
                 decoration: InputDecoration(
-                  hintText: 'Find the tasty and cheaper food',
+                  hintText: 'Найти продукты или блюда',
                   prefixIcon: const Icon(Icons.search, color: Colors.grey),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(8),
@@ -72,7 +74,7 @@ class OnboardingPage extends StatelessWidget {
                     bottom: 20,
                     left: 20,
                     child: Text(
-                      "Today's Popular",
+                      "ПОПУЛЯРНОЕ",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 24,
@@ -102,7 +104,7 @@ class OnboardingPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'All',
+                    'Все',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -110,7 +112,7 @@ class OnboardingPage extends StatelessWidget {
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: const Text('See All'),
+                    child: const Text('Все'),
                   ),
                 ],
               ),
@@ -138,7 +140,7 @@ class OnboardingPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              KafeBasketMenu(title: items[index]['title']!),
+                              MenuScreen(menuType: "Заведения"),
                         ),
                       );
                     } else {
@@ -147,7 +149,7 @@ class OnboardingPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              GroceryBasketMenu(title: items[index]['title']!),
+                              MenuScreen(menuType: "Продукты"),
                         ),
                       );
                     }
@@ -193,58 +195,40 @@ class DiscountTag extends StatelessWidget {
 class FoodItemCard extends StatelessWidget {
   final String imagePath;
   final String title;
-  final Function onTap; // Callback for navigation
+  final Function onTap;
+  final bool isSelected; // Add a flag to track selection
 
   const FoodItemCard({
+    Key? key,
     required this.imagePath,
     required this.title,
     required this.onTap,
-  });
+    this.isSelected = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onTap(), // Trigger navigation when tapped
-      child: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height * 0.2, // Dynamic height
-            width: MediaQuery.of(context).size.width * 0.4, // Dynamic width
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              image: DecorationImage(
-                image: AssetImage(imagePath),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Positioned(
-            top: 8,
-            right: 8,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Text(
-                'Hot',
-                style: TextStyle(color: Colors.white, fontSize: 12),
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 8,
-            left: 8,
-            child: Text(
+      onTap: () => onTap(),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        elevation: 2,
+        color: isSelected
+            ? Colors.lightGreenAccent
+            : Colors.white, // Highlight selected
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(imagePath, height: 80, fit: BoxFit.cover),
+            const SizedBox(height: 8),
+            Text(
               title,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

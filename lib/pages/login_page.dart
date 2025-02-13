@@ -14,16 +14,13 @@ class LoginPage extends StatelessWidget {
 
     try {
       await authService.signInWithEmailPassword(
-          _emailController.text,
-          _passwordController.text
-      );
+          _emailController.text, _passwordController.text);
     } catch (e) {
       showDialog(
           context: context,
           builder: ((context) => AlertDialog(
-            title: Text(e.toString()),
-      )
-      ));
+                title: Text(e.toString()),
+              )));
     }
   }
 
@@ -40,16 +37,20 @@ class LoginPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Login', style: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    Text(
+                      'Логин',
+                      style: TextStyle(
+                        fontSize: 28,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     SizedBox(height: 5),
-                    Text('Please sign in to continue', style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    Text(
+                      'Пожалуйста ввойдите в систему',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w300,
+                      ),
                     ),
                     SizedBox(height: 10),
                     MyTextfield(
@@ -59,21 +60,27 @@ class LoginPage extends StatelessWidget {
                       obsecureText: false,
                     ),
                     MyTextfield(
-                      hintText: "PASSWORD",
+                      hintText: "Пароль",
                       icon: Icon(Icons.lock),
                       controller: _passwordController,
                       obsecureText: true,
                     ),
-                    SizedBox(height: 25,),
-                    MyButton(text: "LOGIN", onPressed: () => login(context)),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    MyButton(text: "Логин", onPressed: () => login(context)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Not a member?'),
+                        Text('Впервый раз'),
                         GestureDetector(
                           onTap: onTap,
-                          child: Text("Rigester now", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.green),
-                        ),
+                          child: Text(
+                            " Зарегистрироваться",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
                         ),
                       ],
                     ),
