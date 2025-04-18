@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_save/pages/login_page.dart';
+import 'package:food_save/features/auth/presentation/login_page.dart';
 import 'package:food_save/pages/register_page.dart';
 
 class LoginOrRegister extends StatefulWidget {
@@ -17,6 +17,7 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
       showLoginPage = !showLoginPage;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     if (showLoginPage) {
@@ -26,4 +27,3 @@ class _LoginOrRegisterState extends State<LoginOrRegister> {
     }
   }
 }
-

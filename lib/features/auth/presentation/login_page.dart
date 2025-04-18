@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_save/auth/auth_service.dart';
-import 'package:food_save/component/my_button.dart';
-import 'package:food_save/component/my_textfield.dart';
+import 'package:food_save/core/widgets/my_button.dart';
+import 'package:food_save/core/widgets/my_textfield.dart';
+
+import 'package:food_save/features/auth/data/auth_service.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();

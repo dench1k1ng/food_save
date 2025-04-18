@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_save/pages/grocery_basket_menu.dart';
-import 'package:food_save/pages/kafe_basket_menu.dart';
-
-import 'menu_screen.dart';
+import 'package:food_save/features/cart/presentation/menu_screen.dart';
 
 class OnboardingPage extends StatelessWidget {
   final List<Map<String, String>> items = [
@@ -43,30 +40,28 @@ class OnboardingPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 10),
-              // Search Bar
-              TextField(
-                decoration: InputDecoration(
-                  hintText: 'Найти продукты или блюда',
-                  prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8),
-                    borderSide: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
-              ),
               const SizedBox(height: 20),
-
-              // "Today's Popular" Section
               Stack(
                 children: [
-                  Container(
-                    height: 180,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage('images/fermag.jpg'),
-                        fit: BoxFit.cover,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MenuScreen(
+                                  menuType: "Заведения",
+                                ) // Замени на нужную страницу
+                            ),
+                      );
+                    },
+                    child: Container(
+                      height: 180,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        image: const DecorationImage(
+                          image: AssetImage('images/fermag.jpg'),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
