@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:food_save/core/theme/app_colors.dart';
+import 'package:food_save/l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:food_save/core/theme/theme_provider.dart';
 import 'package:food_save/features/cart/presentation/menu_screen.dart';
+import 'package:food_save/features/cart/provider/cart_provider.dart';
 
 class OnboardingPage extends StatelessWidget {
-  final List<Map<String, String>> items = [
-    {
-      "image": "images/mcdon.png",
-      "title": "McDonald's",
-    },
-    {
-      "image": "images/magnum2.png",
-      "title": "Magnum",
-    },
-    {
-      "image": "images/kfcDed.png",
-      "title": "KFC",
-    },
-    {
-      "image": "images/small.png",
-      "title": "Small",
-    },
+  const OnboardingPage({Key? key}) : super(key: key);
+
+  final List<Map<String, String>> items = const [
+    {"image": "images/mcdon.png", "title": "McDonald's"},
+    {"image": "images/magnum2.png", "title": "Magnum"},
+    {"image": "images/kfcDed.png", "title": "KFC"},
+    {"image": "images/small.png", "title": "Small"},
   ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context)!;
+    final isDark = theme.brightness == Brightness.dark;
+    final bg = theme.scaffoldBackgroundColor;
+    final textColor = isDark ? AppColors.darkText : AppColors.textDark;
+    final cardBg = isDark ? AppColors.darkCard : AppColors.card;
+
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.white,
-        title: const Text(
-          'Добрый день!',
-          style: TextStyle(color: Colors.black, fontSize: 18),
+        backgroundColor: bg,
+        title: Text(
+          localizations.greeting, // "Добрый день!"
+          style: theme.textTheme.titleMedium?.copyWith(color: textColor),
         ),
         automaticallyImplyLeading: false,
       ),
@@ -48,16 +49,15 @@ class OnboardingPage extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => MenuScreen(
-                                  menuType: "Заведения",
-                                ) // Замени на нужную страницу
-                            ),
+                          builder: (_) =>
+                              const MenuScreen(menuType: 'Заведения'),
+                        ),
                       );
                     },
                     child: Container(
                       height: 180,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                         image: const DecorationImage(
                           image: AssetImage('images/fermag.jpg'),
                           fit: BoxFit.cover,
@@ -69,10 +69,9 @@ class OnboardingPage extends StatelessWidget {
                     bottom: 20,
                     left: 20,
                     child: Text(
-                      "ПОПУЛЯРНОЕ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 24,
+                      localizations.popular,
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -81,39 +80,34 @@ class OnboardingPage extends StatelessWidget {
                     bottom: 10,
                     right: 20,
                     child: Row(
-                      children: [
-                        DiscountTag('-50%', Colors.red),
-                        const SizedBox(width: 8),
-                        DiscountTag('-40%', Colors.orange),
-                        const SizedBox(width: 8),
-                        DiscountTag('-30%', Colors.green),
+                      children: const [
+                        DiscountTag('-50%'),
+                        DiscountTag('-40%'),
+                        DiscountTag('-30%'),
                       ],
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 20),
-
-              // "All" Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    'Все',
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  Text(
+                    localizations.all,
+                    style:
+                        theme.textTheme.titleLarge?.copyWith(color: textColor),
                   ),
                   TextButton(
                     onPressed: () {},
-                    child: const Text('Все'),
+                    child: Text(
+                      localizations.viewAll,
+                      style: theme.textTheme.bodyMedium,
+                    ),
                   ),
                 ],
               ),
               const SizedBox(height: 10),
-
-              // List/Grid of Items
               GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -124,64 +118,50 @@ class OnboardingPage extends StatelessWidget {
                   mainAxisSpacing: 16,
                 ),
                 itemCount: items.length,
-                itemBuilder: (context, index) => FoodItemCard(
-                  imagePath: items[index]['image']!,
-                  title: items[index]['title']!,
-                  onTap: () {
-                    // Navigate to different screens based on the item's index or type
-                    if (index % 2 == 0) {
-                      // Navigate to ScreenTypeA for even-index items
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MenuScreen(menuType: "Заведения"),
+                itemBuilder: (context, index) {
+                  final item = items[index];
+                  return FoodItemCard(
+                    imagePath: item['image']!,
+                    title: item['title']!,
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => MenuScreen(
+                          menuType: index % 2 == 0
+                              ? localizations.establishments
+                              : localizations.products,
                         ),
-                      );
-                    } else {
-                      // Navigate to ScreenTypeB for odd-index items
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              MenuScreen(menuType: "Продукты"),
-                        ),
-                      );
-                    }
-                  },
-                ),
-              )
+                      ),
+                    ),
+                  );
+                },
+              ),
             ],
           ),
         ),
       ),
     );
   }
-
-  @override
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    throw UnimplementedError();
-  }
 }
 
 class DiscountTag extends StatelessWidget {
   final String label;
-  final Color color;
-
-  const DiscountTag(this.label, this.color);
+  const DiscountTag(this.label, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
+      margin: const EdgeInsets.only(right: 8),
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(5),
+        color: isDark ? Colors.redAccent.shade700 : Colors.red,
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
         label,
-        style: const TextStyle(color: Colors.white, fontSize: 12),
+        style:
+            const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
       ),
     );
   }
@@ -190,29 +170,33 @@ class DiscountTag extends StatelessWidget {
 class FoodItemCard extends StatelessWidget {
   final String imagePath;
   final String title;
-  final Function onTap;
-  final bool isSelected; // Add a flag to track selection
+  final VoidCallback onTap;
 
-  const FoodItemCard({
-    Key? key,
-    required this.imagePath,
-    required this.title,
-    required this.onTap,
-    this.isSelected = false,
-  }) : super(key: key);
+  const FoodItemCard(
+      {Key? key,
+      required this.imagePath,
+      required this.title,
+      required this.onTap})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
     return GestureDetector(
-      onTap: () => onTap(),
-      child: Card(
-        shape: RoundedRectangleBorder(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkCard : AppColors.card,
           borderRadius: BorderRadius.circular(8),
+          boxShadow: [
+            BoxShadow(
+              color: isDark ? Colors.black26 : AppColors.shadow,
+              blurRadius: 6,
+              offset: const Offset(0, 3),
+            ),
+          ],
         ),
-        elevation: 2,
-        color: isSelected
-            ? Colors.lightGreenAccent
-            : Colors.white, // Highlight selected
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -220,7 +204,10 @@ class FoodItemCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              style: theme.textTheme.bodyLarge?.copyWith(
+                fontWeight: FontWeight.w600,
+                color: isDark ? AppColors.darkText : AppColors.textDark,
+              ),
             ),
           ],
         ),

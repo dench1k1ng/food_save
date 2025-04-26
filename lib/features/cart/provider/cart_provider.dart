@@ -21,13 +21,14 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem(String title) {
+  void removeItem(Map<String, dynamic> item) {
+    final title = item['title'] as String;
     if (_selectedItems.containsKey(title)) {
       if (_selectedItems[title]! > 1) {
         _selectedItems[title] = _selectedItems[title]! - 1;
       } else {
         _selectedItems.remove(title);
-        _items.removeWhere((item) => item['title'] == title);
+        _items.removeWhere((i) => i['title'] == title);
       }
       notifyListeners();
     }

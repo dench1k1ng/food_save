@@ -39,5 +39,26 @@ class AppLocalizationsRu extends AppLocalizations {
   String get goToCart => 'Перейти в корзину';
 
   @override
-  String get added => 'Товар добавлен в корзину';
+  String get added => 'Добавлено';
+
+  @override
+  String get products => 'Товары';
+
+  @override
+  String get greeting => 'Добро пожаловать в наш магазин!';
+
+  @override
+  String get popular => 'Популярные';
+
+  @override
+  String get all => 'Все';
+
+  @override
+  String get viewAll => 'Посмотреть все';
+
+  @override
+  String get establishments => 'Заведения';
+
+  @override
+  String get loadingError => 'Ошибка загрузки';
 }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 class BasketScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    
     final cartProvider = Provider.of<CartProvider>(context);
     double totalPrice = 0;
 
@@ -41,7 +42,7 @@ class BasketScreen extends StatelessWidget {
                             IconButton(
                               icon: const Icon(Icons.remove),
                               onPressed: () =>
-                                  cartProvider.removeItem(itemTitle),
+                                  cartProvider.removeItem(item),
                             ),
                             Text('$quantity'),
                             IconButton(

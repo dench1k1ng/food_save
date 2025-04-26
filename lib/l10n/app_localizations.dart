@@ -158,8 +158,50 @@ abstract class AppLocalizations {
   /// No description provided for @added.
   ///
   /// In en, this message translates to:
-  /// **'Item added to cart'**
+  /// **'Added'**
   String get added;
+
+  /// No description provided for @products.
+  ///
+  /// In en, this message translates to:
+  /// **'Products'**
+  String get products;
+
+  /// No description provided for @greeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to our shop!'**
+  String get greeting;
+
+  /// No description provided for @popular.
+  ///
+  /// In en, this message translates to:
+  /// **'Popular'**
+  String get popular;
+
+  /// No description provided for @all.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get all;
+
+  /// No description provided for @viewAll.
+  ///
+  /// In en, this message translates to:
+  /// **'viewAll'**
+  String get viewAll;
+
+  /// No description provided for @establishments.
+  ///
+  /// In en, this message translates to:
+  /// **'Establishments'**
+  String get establishments;
+
+  /// No description provided for @loadingError.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading error'**
+  String get loadingError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -10,5 +10,12 @@
   "menu": "Menu",
   "search": "Search",
   "goToCart": "Go to Cart",
-  "added": "Item added to cart"
+  "added": "Added",
+  "products": "Products",
+  "greeting": "Welcome to our shop!",
+  "popular": "Popular",
+  "all": "All",
+  "viewAll": "viewAll",
+  "establishments": "Establishments",
+  "loadingError": "Loading error"
 }

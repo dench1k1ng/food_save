@@ -39,5 +39,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goToCart => 'Go to Cart';
 
   @override
-  String get added => 'Item added to cart';
+  String get added => 'Added';
+
+  @override
+  String get products => 'Products';
+
+  @override
+  String get greeting => 'Welcome to our shop!';
+
+  @override
+  String get popular => 'Popular';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get viewAll => 'viewAll';
+
+  @override
+  String get establishments => 'Establishments';
+
+  @override
+  String get loadingError => 'Loading error';
 }

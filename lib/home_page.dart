@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:food_save/core/theme/app_colors.dart';
 import 'package:food_save/features/cart/presentation/basket_screen.dart';
-import 'package:food_save/features/cart/provider/cart_provider.dart';
 import 'package:food_save/features/onboarding/presentation/onboarding_page.dart';
 import 'package:food_save/features/profile/presentation/profile_page.dart';
+import 'package:food_save/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:food_save/features/cart/provider/cart_provider.dart';
 
 Future<Map<String, String>> loadUserData() async {
   final prefs = await SharedPreferences.getInstance();
@@ -14,33 +16,27 @@ Future<Map<String, String>> loadUserData() async {
   };
 }
 
-int hexToInteger(String hex) => int.parse(hex, radix: 16);
-
-extension StringColorExtensions on String {
-  Color toColor() => Color(hexToInteger(this));
-}
-
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  int myIndex = 0;
-  late Future<List<Widget>> widgetListFuture;
+  int _currentIndex = 0;
+  late Future<List<Widget>> _widgetListFuture;
 
   @override
   void initState() {
     super.initState();
-    widgetListFuture = _loadWidgets();
+    _widgetListFuture = _loadWidgets();
   }
 
   Future<List<Widget>> _loadWidgets() async {
     final userData = await loadUserData();
     return [
-      OnboardingPage(),
+      const OnboardingPage(),
       BasketScreen(),
       ProfilePage(
         name: userData['name']!,
@@ -51,20 +47,31 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context)!;
+    final isDark = theme.brightness == Brightness.dark;
+    final bgColor = theme.scaffoldBackgroundColor;
+    final iconColor = isDark ? AppColors.primaryGreen : AppColors.textDark;
+    final badgeColor = Colors.redAccent;
+    final badgeTextColor = Colors.white;
+
     return Scaffold(
       body: FutureBuilder<List<Widget>>(
-        future: widgetListFuture,
+        future: _widgetListFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
-            return const Center(child: Text('Ошибка загрузки данных'));
+            return Center(
+                child: Text(
+              localizations.loadingError,
+              style: theme.textTheme.bodyMedium,
+            ));
           }
-          final widgetList = snapshot.data ?? [];
-
+          final widgetList = snapshot.data!;
           return IndexedStack(
-            index: myIndex,
+            index: _currentIndex,
             children: widgetList,
           );
         },
@@ -72,37 +79,30 @@ class _HomePageState extends State<HomePage> {
       bottomNavigationBar: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {
           return BottomNavigationBar(
-            backgroundColor: Colors.white,
+            currentIndex: _currentIndex,
+            onTap: (index) => setState(() => _currentIndex = index),
+            backgroundColor: bgColor,
+            selectedItemColor: AppColors.primaryGreen,
+            unselectedItemColor: iconColor,
+            showSelectedLabels: false,
             showUnselectedLabels: false,
-            onTap: (index) {
-              setState(() {
-                myIndex = index;
-              });
-            },
-            currentIndex: myIndex,
             items: [
               BottomNavigationBarItem(
                 label: '',
-                icon: Icon(
-                  Icons.home,
-                  color: Color(hexToInteger('FF154314')),
-                ),
+                icon: Icon(Icons.home, color: iconColor),
               ),
               BottomNavigationBarItem(
                 label: '',
                 icon: Stack(
                   children: [
-                    Icon(
-                      Icons.shopping_basket,
-                      color: Color(hexToInteger('FF154314')),
-                    ),
+                    Icon(Icons.shopping_basket, color: iconColor),
                     if (cartProvider.totalItems > 0)
                       Positioned(
                         right: 0,
                         child: Container(
                           padding: const EdgeInsets.all(2),
                           decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: badgeColor,
                             borderRadius: BorderRadius.circular(10),
                           ),
                           constraints: const BoxConstraints(
@@ -111,8 +111,8 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Text(
                             '${cartProvider.totalItems}',
-                            style: const TextStyle(
-                              color: Colors.white,
+                            style: TextStyle(
+                              color: badgeTextColor,
                               fontSize: 10,
                               fontWeight: FontWeight.bold,
                             ),
@@ -125,10 +125,7 @@ class _HomePageState extends State<HomePage> {
               ),
               BottomNavigationBarItem(
                 label: '',
-                icon: Icon(
-                  Icons.person,
-                  color: Color(hexToInteger('FF154314')),
-                ),
+                icon: Icon(Icons.person, color: iconColor),
               ),
             ],
           );

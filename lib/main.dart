@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
     return Consumer<ThemeProvider>(
       builder: (context, themeProvider, child) {
         return MaterialApp(
+          locale: const Locale('ru'),
           localizationsDelegates: const [
             AppLocalizations.delegate, // ваш сгенерированный
             GlobalMaterialLocalizations.delegate, // стандартные Material
