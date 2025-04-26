@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:food_save/features/cart/provider/cart_provider.dart';
+import 'package:food_save/core/theme/app_colors.dart';
+import 'package:food_save/l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:food_save/features/cart/provider/cart_provider.dart';
 import 'basket_screen.dart';
 
 class MenuScreen extends StatelessWidget {
@@ -11,6 +13,13 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
+    final localizations = AppLocalizations.of(context);
+    if (localizations == null) {
+      throw FlutterError('AppLocalizations not found. '
+          'Ensure you added localizationsDelegates and supportedLocales in MaterialApp.');
+    }
+
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final List<Map<String, dynamic>> items = menuType == "Продукты"
         ? [
@@ -46,7 +55,7 @@ class MenuScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('$menuType Меню'),
+        title: Text('${menuType} ${localizations.menu}'),
         centerTitle: true,
       ),
       body: Padding(
@@ -56,10 +65,11 @@ class MenuScreen extends StatelessWidget {
             // Поле поиска
             TextField(
               decoration: InputDecoration(
-                labelText: 'Поиск',
-                prefixIcon: Icon(Icons.search, color: Colors.green[700]),
+                labelText: localizations.search,
+                prefixIcon: Icon(Icons.search, color: AppColors.primaryGreen),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: AppColors.border),
                 ),
               ),
             ),
@@ -77,12 +87,12 @@ class MenuScreen extends StatelessWidget {
                 itemCount: items.length,
                 itemBuilder: (context, index) {
                   final item = items[index];
+                  final count = cartProvider.selectedItems[item['title']] ?? 0;
                   return ProductCard(
                     imagePath: item['image'],
                     title: item['title'],
                     price: item['price'],
-                    isSelected:
-                        cartProvider.selectedItems.containsKey(item['title']),
+                    count: count,
                     onTap: () => cartProvider.addItem(item),
                   );
                 },
@@ -106,8 +116,8 @@ class MenuScreen extends StatelessWidget {
                           );
                         },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green[700],
-                    foregroundColor: Colors.white,
+                    backgroundColor: AppColors.primaryGreen,
+                    foregroundColor: AppColors.background,
                     textStyle: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -116,7 +126,7 @@ class MenuScreen extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                  child: const Text('Перейти в корзину'),
+                  child: Text(localizations.goToCart),
                 ),
               ),
             ),
@@ -127,12 +137,11 @@ class MenuScreen extends StatelessWidget {
   }
 }
 
-// Карточка товара
 class ProductCard extends StatelessWidget {
   final String imagePath;
   final String title;
   final int price;
-  final bool isSelected;
+  final int count;
   final VoidCallback onTap;
 
   const ProductCard({
@@ -140,21 +149,33 @@ class ProductCard extends StatelessWidget {
     required this.imagePath,
     required this.title,
     required this.price,
-    required this.isSelected,
+    required this.count,
     required this.onTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
+    if (localizations == null) {
+      throw FlutterError('AppLocalizations not found. '
+          'Ensure you added localizationsDelegates and supportedLocales in MaterialApp.');
+    }
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        elevation: 6,
-        shape: RoundedRectangleBorder(
+      child: Container(
+        decoration: BoxDecoration(
+          color: AppColors.card,
           borderRadius: BorderRadius.circular(12),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow,
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ClipRRect(
               borderRadius:
@@ -162,7 +183,6 @@ class ProductCard extends StatelessWidget {
               child: Image.asset(
                 imagePath,
                 height: 100,
-                width: double.infinity,
                 fit: BoxFit.cover,
               ),
             ),
@@ -180,10 +200,10 @@ class ProductCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   Text(
-                    "$price ₸",
+                    '$price ₸',
                     style: TextStyle(
                       fontSize: 14,
-                      color: Colors.green[800],
+                      color: AppColors.primaryGreen,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -193,13 +213,18 @@ class ProductCard extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: onTap,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green[700],
-                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.primaryGreen,
+                        foregroundColor: AppColors.background,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8),
                         ),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      child: Text(isSelected ? "Добавлено" : "Добавить"),
+                      child: Text(
+                        count == 0
+                            ? localizations.addToCart
+                            : '${localizations.added}: $count',
+                      ),
                     ),
                   ),
                 ],

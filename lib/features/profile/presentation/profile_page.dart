@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_save/core/theme/theme_provider.dart';
 import 'package:food_save/core/widgets/avatar_widget.dart';
@@ -27,8 +28,18 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    _name = widget.name;
-    _email = widget.email;
+    _loadUserData();
+  }
+
+  Future<void> _loadUserData() async {
+    final user = FirebaseAuth.instance.currentUser;
+    await user?.reload(); // ОБНОВЛЕНИЕ!
+
+    final updatedUser = FirebaseAuth.instance.currentUser;
+    setState(() {
+      _name = updatedUser?.displayName ?? "Имя не указано";
+      _email = updatedUser?.email ?? "Почта не указана";
+    });
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -165,6 +176,23 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.yellow[700],
                   foregroundColor: Colors.black,
+                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
+                  textStyle:
+                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                  // Возврат на страницу входа или перезапуск AuthGate
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                icon: Icon(Icons.logout),
+                label: Text("Выйти из аккаунта"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent,
+                  foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
                   textStyle:
                       TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

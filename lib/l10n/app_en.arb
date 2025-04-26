@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "appTitle": "Shop",
+  "addToCart": "Add to Cart",
+  "cart": "Cart",
+  "total": "Total",
+  "checkout": "Checkout",
+  "darkTheme": "Dark Theme",
+  "language": "Language",
+  "menu": "Menu",
+  "search": "Search",
+  "goToCart": "Go to Cart",
+  "added": "Item added to cart"
+}

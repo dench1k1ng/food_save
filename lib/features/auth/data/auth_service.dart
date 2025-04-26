@@ -14,13 +14,16 @@ class AuthService {
     }
   }
 
-  Future<UserCredential> signUpWithEmailPassword(String email, password) async {
+  Future<void> signUpWithEmailPassword(
+      String email, String password, String name) async {
     try {
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-          email: email, password: password);
-      return userCredential;
-    } on FirebaseAuthException catch (e) {
-      throw Exception(e.code);
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+
+      await userCredential.user?.updateDisplayName(name);
+      await userCredential.user?.reload();
+    } catch (e) {
+      throw Exception("Ошибка регистрации: $e");
     }
   }
 

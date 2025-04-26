@@ -5,6 +5,7 @@ import 'package:food_save/core/widgets/my_textfield.dart';
 import 'package:food_save/features/auth/data/auth_service.dart';
 
 class RegisterPage extends StatelessWidget {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmpasswordController =
@@ -17,7 +18,10 @@ class RegisterPage extends StatelessWidget {
     if (_passwordController.text == _confirmpasswordController.text) {
       try {
         await auth.signUpWithEmailPassword(
-            _emailController.text, _passwordController.text);
+          _emailController.text,
+          _passwordController.text,
+          _nameController.text,
+        );
       } catch (e) {
         showDialog(
             context: context,
@@ -53,6 +57,13 @@ class RegisterPage extends StatelessWidget {
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    SizedBox(height: 10),
+                    MyTextfield(
+                      controller: _nameController,
+                      icon: Icon(Icons.person),
+                      hintText: 'Имя',
+                      obsecureText: false,
                     ),
                     SizedBox(height: 10),
                     MyTextfield(

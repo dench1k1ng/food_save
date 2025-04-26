@@ -1,154 +1,128 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+// import 'package:food_save/core/theme/app_colors.dart';
+// import 'package:food_save/l10n/app_localizations.dart';
 
-class ShopProductsPage extends StatelessWidget {
-  final String shopName;
+// class ShopProductsPage extends StatelessWidget {
+//   const ShopProductsPage({super.key});
 
-  ShopProductsPage({Key? key, required this.shopName}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     final localizations = AppLocalizations.of(context)!;
 
-  final List<Map<String, dynamic>> products = [
-    {'image': 'images/gro/app.jpg', 'title': 'Яблоки', 'price': 300},
-    {'image': 'images/gro/banana.jpg', 'title': 'Бананы', 'price': 500},
-    {'image': 'images/gro/milk.jpg', 'title': 'Молоко', 'price': 450},
-    {'image': 'images/gro/bread.jpg', 'title': 'Хлеб', 'price': 150},
-    {'image': 'images/gro/straw.jpg', 'title': 'Клубника', 'price': 900},
-    {'image': 'images/gro/cokki.jpg', 'title': 'Печеньки', 'price': 700},
-  ];
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(localizations.appTitle), // <-- Локализованный заголовок
+//         centerTitle: true,
+//       ),
+//       body: Padding(
+//         padding: const EdgeInsets.all(16.0),
+//         child: GridView.builder(
+//           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+//             crossAxisCount: 2,
+//             mainAxisSpacing: 16,
+//             crossAxisSpacing: 16,
+//             childAspectRatio: 0.7,
+//           ),
+//           itemCount: 10,
+//           itemBuilder: (context, index) {
+//             return ProductCard(
+//               title: 'Товар ${index + 1}',
+//               price: '${(index + 1) * 1000} ₸',
+//               imageUrl: 'https://via.placeholder.com/150',
+//               buttonText: localizations.addToCart, // <-- локализация кнопки
+//             );
+//           },
+//         ),
+//       ),
+//     );
+//   }
+// }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          shopName,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-        ),
-        backgroundColor: Colors.green[700],
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            Text(
-              "Товары от $shopName",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-                color: Colors.green[800],
-              ),
-            ),
-            const SizedBox(height: 10),
+// class ProductCard extends StatelessWidget {
+//   final String title;
+//   final String price;
+//   final String imageUrl;
+//   final String buttonText;
 
-            // Сетка товаров
-            Expanded(
-              child: GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.8,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final product = products[index];
-                  return ProductCard(
-                    imagePath: product['image'],
-                    title: product['title'],
-                    price: product['price'],
-                    onTap: () {
-                      // Действие при нажатии на товар
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                            content: Text("Добавлено: ${product['title']}")),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   const ProductCard({
+//     super.key,
+//     required this.title,
+//     required this.price,
+//     required this.imageUrl,
+//     required this.buttonText,
+//   });
 
-// Карточка товара
-class ProductCard extends StatelessWidget {
-  final String imagePath;
-  final String title;
-  final int price;
-  final VoidCallback onTap;
-
-  const ProductCard({
-    Key? key,
-    required this.imagePath,
-    required this.title,
-    required this.price,
-    required this.onTap,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        elevation: 6,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
-              child: Image.asset(
-                imagePath,
-                height: 120,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Text(
-                    "$price ₸",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.green[800],
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  ElevatedButton(
-                    onPressed: onTap,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green[700],
-                      foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                    ),
-                    child: const Text("Добавить"),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       decoration: BoxDecoration(
+//         color: AppColors.card,
+//         borderRadius: BorderRadius.circular(16),
+//         boxShadow: [
+//           BoxShadow(
+//             color: AppColors.shadow,
+//             blurRadius: 8,
+//             spreadRadius: 2,
+//             offset: const Offset(0, 4),
+//           ),
+//         ],
+//       ),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.stretch,
+//         children: [
+//           Expanded(
+//             child: ClipRRect(
+//               borderRadius:
+//                   const BorderRadius.vertical(top: Radius.circular(16)),
+//               child: Image.network(
+//                 imageUrl,
+//                 fit: BoxFit.cover,
+//               ),
+//             ),
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.all(8.0),
+//             child: Column(
+//               crossAxisAlignment: CrossAxisAlignment.start,
+//               children: [
+//                 Text(
+//                   title,
+//                   maxLines: 2,
+//                   overflow: TextOverflow.ellipsis,
+//                   style: const TextStyle(
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.w600,
+//                   ),
+//                 ),
+//                 const SizedBox(height: 4),
+//                 Text(
+//                   price,
+//                   style: const TextStyle(
+//                     fontSize: 14,
+//                     fontWeight: FontWeight.bold,
+//                     color: AppColors.primaryGreen,
+//                   ),
+//                 ),
+//                 const SizedBox(height: 8),
+//                 SizedBox(
+//                   width: double.infinity,
+//                   child: ElevatedButton(
+//                     onPressed: () {},
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: AppColors.primaryGreen,
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(12),
+//                       ),
+//                       padding: const EdgeInsets.symmetric(vertical: 12),
+//                     ),
+//                     child: Text(buttonText), // <-- текст кнопки локализованный
+//                   ),
+//                 ),
+//               ],
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }

@@ -1,0 +1,2 @@
+/home/denis/StudioProjects/food_save/android/app/.cxx/Debug/20i6j4q9/x86_64/CMakeFiles/edit_cache.dir
+/home/denis/StudioProjects/food_save/android/app/.cxx/Debug/20i6j4q9/x86_64/CMakeFiles/rebuild_cache.dir
